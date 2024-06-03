@@ -1,5 +1,3 @@
-add_subdirectory(test)
-
 set(quickfix_VERSION_MAJOR 16)
 set(quickfix_VERSION_MINOR 0)
 set(quickfix_VERSION_PATCH 1)
@@ -53,35 +51,18 @@ set(quickfix_SOURCES
   Utility.cpp
 )
 
-if (WIN32)
-  list(APPEND quickfix_SOURCES SocketMonitor_WIN32.cpp)
+# remove win32 support
+list(APPEND quickfix_SOURCES SocketMonitor_UNIX.cpp)
+
+# remote SSL support
+
+if (QUICKFIX_SHARED_LIBS)
+  add_library(${PROJECT_NAME} SHARED  ${quickfix_SOURCES})
 else()
-  list(APPEND quickfix_SOURCES SocketMonitor_UNIX.cpp)
-endif()
-
-if (HAVE_SSL)
-  set (quickfix_SOURCES ${quickfix_SOURCES}
-    SSLSocketAcceptor.cpp
-    SSLSocketConnection.cpp
-    SSLSocketInitiator.cpp
-    ThreadedSSLSocketAcceptor.cpp
-    ThreadedSSLSocketConnection.cpp
-    ThreadedSSLSocketInitiator.cpp
-    UtilitySSL.cpp)
-endif()
-
-if (WIN32)
   add_library(${PROJECT_NAME} STATIC  ${quickfix_SOURCES})
-  set_target_properties (${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX d)
-  target_link_libraries(${PROJECT_NAME} ${OPENSSL_LIBRARIES} ${MYSQL_CLIENT_LIBS} ${PostgreSQL_LIBRARIES} ws2_32 crypt32)
-else()
-   if (QUICKFIX_SHARED_LIBS)
-	   add_library(${PROJECT_NAME} SHARED  ${quickfix_SOURCES})
-   else()
-	   add_library(${PROJECT_NAME} STATIC  ${quickfix_SOURCES})
-  endif()
-  target_link_libraries(${PROJECT_NAME} ${OPENSSL_LIBRARIES} ${MYSQL_CLIENT_LIBS} ${PostgreSQL_LIBRARIES} pthread)
 endif()
+target_link_libraries(${PROJECT_NAME} ${OPENSSL_LIBRARIES} ${MYSQL_CLIENT_LIBS} ${PostgreSQL_LIBRARIES} pthread)
+
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_11)
 target_include_directories(${PROJECT_NAME} INTERFACE ${PROJECT_SOURCE_DIR}/include)

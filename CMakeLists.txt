@@ -24,8 +24,6 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 include(QuickfixPlatformSettings)
 include(QuickfixPrebuildSetup)
 
-# Call cmake with-DHAVE_SSL=ON to compile with SSL. Similarly for others.
-option(HAVE_SSL "Build with SSL")
 option(HAVE_MYSQL "Build with MySQL")
 option(HAVE_POSTGRESQL "Build with PostgreSQL")
 option(HAVE_PYTHON "Build with default Python version")
@@ -35,7 +33,6 @@ option(HAVE_PYTHON3 "Build with default Python3 version")
 option(QUICKFIX_SHARED_LIBS "Build using shared libraries" ON)
 # add option to build other targets
 option(QUICKFIX_EXAMPLES "Build quickfix examples" ON)
-option(QUICKFIX_TESTS "Build quickfix tests" ON)
 
 #Make sure that a previous config.h has not undefined HAVE_SSL
 if(HAVE_SSL)
@@ -65,25 +62,8 @@ include_directories(${PostgreSQL_INCLUDE_DIRS})
 message("-- Building with POSTGRESQL")
 endif()
 
-if (HAVE_PYTHON)
-  find_package(PythonLibs REQUIRED)
-  include_directories(${PYTHON_INCLUDE_DIRS})
-elseif (HAVE_PYTHON3)
-  find_package(PythonLibs 3 REQUIRED)
-  include_directories(${PYTHON_INCLUDE_DIRS})
-endif ()
 
 add_subdirectory(src)
-
-if (QUICKFIX_EXAMPLES)
-  add_subdirectory(examples)
-endif()
-
-if (QUICKFIX_TESTS)
-  if( WIN32)
-    add_subdirectory(test)
-  endif()
-endif()
 
 configure_file(cmake_config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/src/C++/config.h @ONLY)
 configure_file(cmake_config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/include/quickfix/config.h @ONLY)
