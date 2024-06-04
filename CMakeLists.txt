@@ -16,4 +16,4 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -flto=8 ")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native -mtune=native ")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations ")
 
-add_subdirectory(src) 
+add_subdirectory(src/C++) 

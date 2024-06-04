@@ -24,14 +24,8 @@ set(quickfix_SOURCES
   Message.cpp
   MessageSorters.cpp
   MessageStore.cpp
-  MySQLLog.cpp
-  MySQLStore.cpp
   NullStore.cpp
-  OdbcLog.cpp
-  OdbcStore.cpp
   Parser.cpp
-  PostgreSQLLog.cpp
-  PostgreSQLStore.cpp
   pugixml.cpp
   PUGIXML_DOMDocument.cpp
   Session.cpp
@@ -56,16 +50,12 @@ list(APPEND quickfix_SOURCES SocketMonitor_UNIX.cpp)
 
 # remote SSL support
 
-if (QUICKFIX_SHARED_LIBS)
-  add_library(${PROJECT_NAME} SHARED  ${quickfix_SOURCES})
-else()
-  add_library(${PROJECT_NAME} STATIC  ${quickfix_SOURCES})
-endif()
-target_link_libraries(${PROJECT_NAME} ${OPENSSL_LIBRARIES} ${MYSQL_CLIENT_LIBS} ${PostgreSQL_LIBRARIES} pthread)
+#  add_library(${PROJECT_NAME} SHARED  ${quickfix_SOURCES})
 
+add_library(${PROJECT_NAME} STATIC  ${quickfix_SOURCES})
 
-target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_11)
-target_include_directories(${PROJECT_NAME} INTERFACE ${PROJECT_SOURCE_DIR}/include)
+target_link_libraries(${PROJECT_NAME} pthread)
+
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/src ${PROJECT_SOURCE_DIR}/src/C++)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${quickfix_VERSION} SOVERSION ${quickfix_VERSION_MAJOR} )
