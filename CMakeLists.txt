@@ -16,4 +16,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -flto=8 ")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native -mtune=native ")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations ")
 
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wconversion -Wpedantic -Wshadow ")
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wformat -Wsign-compare -Wundef ")
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wfloat-equal -Wredundant-decls ")
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror ")
+
 add_subdirectory(src/C++) 
