@@ -5,25 +5,15 @@ set(quickfix_PROJECT_NAME quickfix)
 project(${quickfix_PROJECT_NAME} VERSION 0.1 LANGUAGES CXX C)
 message("-- Project name ${CMAKE_PROJECT_NAME}")
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED OFF)
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wconversion -Wpedantic -Wshadow ")
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wformat -Wsign-compare -Wundef ")
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wfloat-equal -Wredundant-decls ")
 
-if( CMAKE_CXX_STANDARD EQUAL 17 )
-  option( HAVE_CXX17 "Using C++17" ON)
-endif()
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O3 -std=gnu++17 ")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++ -static-libgcc ")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ffunction-sections -fdata-sections ")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -flto=8 ")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native -mtune=native ")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations ")
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
-
-include(QuickfixPlatformSettings)
-
-add_subdirectory(src)
-
-configure_file(cmake_config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/src/C++/config.h @ONLY)
-configure_file(cmake_config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/include/quickfix/config.h @ONLY)
-file(REMOVE config.h)
-
-
-configure_file(cmake_config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/include/quickfix/config.h @ONLY)
-
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/spec/ DESTINATION share/quickfix FILES_MATCHING PATTERN "FIX*.xml")
- 
+add_subdirectory(src) 

@@ -37,10 +37,6 @@
 #  define PRAGMA_POP
 #endif
 
-#ifndef _MSC_VER
-#include "Allocator.h"
-#endif
-
 #include "Except.h"
 
 #ifdef ENABLE_DEBUG_ALLOCATOR
